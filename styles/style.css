@@ -1,0 +1,38 @@
+/*Estilos generales*/
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+/*Estilo del header*/
+header{
+    height: 100px;
+    position: relative;
+}
+header div img{
+    margin-left: 25px;
+    margin-top: 25px;
+}
+#opcionesHeader{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 25px;
+    margin-top: 35px;
+    margin-right: 25px;
+}
+#opcionesHeader a{
+    text-decoration: none;
+    color:black;
+}
+#opcionesHeader a:visited{
+    color:black;
+}
