@@ -17,6 +17,10 @@ require_once("./conexionBBDD.php");
     <?php require "./cabecera.php"; ?>
     <h1>Carrito de la compra</h1>
     <?php
+    if(!isset($_SESSION["carrito"])){
+        echo "<p>No hay ningún producto agregado al carrito</p>";
+        exit(); //si no hay productos que no se ejecute el resto del código
+    }
     //Para comprobar que el codigo y las unidades se están pasando bien mediante session:
     //print_r($_SESSION["carrito"]);
     //Pasar un array con los IDs de los productos que están en los carritos
@@ -29,7 +33,7 @@ require_once("./conexionBBDD.php");
             $unidades = $_SESSION["carrito"][$producto["cod_producto"]];
             echo"<tr><td>$producto[nombre]</td><td>$producto[descripcion]</td><td>$producto[peso]</td><td>$unidades</td>
             <td><form action='modificarProducto.php' method='POST'>
-            <input type='number' min='1' value='1'>
+            <input type='number' name='numEliminar' min='1' value='1'>
             <input type='hidden' name='cod_producto' value='$producto[cod_producto]'>
             <input type='submit' value='Eliminar'>
             </form></td></tr>";
