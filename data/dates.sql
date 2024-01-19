@@ -16,7 +16,7 @@ CREATE TABLE restaurante(
 );
 
 CREATE TABLE pedido(
-    cod_pedido INT PRIMARY KEY,
+    cod_pedido INT PRIMARY KEY AUTO_INCREMENT,
     enviado BOOLEAN DEFAULT false,
     fecha DATE NOT NULL,
     cod_restaurante INT NOT NULL,

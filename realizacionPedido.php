@@ -17,7 +17,9 @@ require_once('./conexionBBDD.php');
     <?php require "./cabecera.php"; ?>
     <h1>Pedido</h1>
     <?php
-    
+    //Acceder al código del restaurante
+    $restaurante = $_SESSION["usuario"]->cod_restaurante;
+    $resultado = (new Conexion())->procesarPedido($restaurante, $_SESSION["carrito"]);
     ?>
 </body>
 
