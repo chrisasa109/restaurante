@@ -39,6 +39,7 @@ require_once("./conexionBBDD.php");
             </form></td></tr>";
         }
         echo"</table>";
+        echo "<form action='realizacionPedido.php'><input type='submit' name='relizarPedido' value='Realizar pedido'></form>";
     }
     ?>
 </body>
