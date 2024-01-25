@@ -17,7 +17,7 @@ require_once("./conexionBBDD.php");
     <?php require "./cabecera.php"; ?>
     <h1>Carrito de la compra</h1>
     <?php
-    if(!isset($_SESSION["carrito"])){
+    if(empty($_SESSION["carrito"])){
         echo "<p>No hay ningún producto agregado al carrito</p>";
         exit(); //si no hay productos que no se ejecute el resto del código
     }

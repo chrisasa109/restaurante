@@ -1,4 +1,5 @@
 <?php
+require_once('./gestionSesion.php');
 class Conexion extends PDO
 {
     private $SERVIDOR = 'localhost';
@@ -71,23 +72,35 @@ class Conexion extends PDO
 
     function procesarPedido($restaurante, $carrito)
     {
-        //Insertar datos en la tabla pedido
-        $fecha = date("Y-m-d");
-        $consulta = "INSERT INTO pedido(fecha, cod_restaurante) VALUES (:fecha, :restaurante)";
-        $stmt = $this->prepare($consulta);
-        $stmt->bindParam(":fecha", $fecha);
-        $stmt->bindParam(":restaurante", $restaurante);
-        $stmt->execute();
+        try {
+            //Iniciar el proceso de inserción
+            $this->beginTransaction();
+            //Insertar datos en la tabla pedido
+            $fecha = date("Y-m-d");
+            $consulta = "INSERT INTO pedido(fecha, cod_restaurante) VALUES (:fecha, :restaurante)";
+            $stmt = $this->prepare($consulta);
+            $stmt->bindParam(":fecha", $fecha);
+            $stmt->bindParam(":restaurante", $restaurante);
+            $stmt->execute();
 
-        //Obtener el id del pedido para insertar datos en la tabla producto_pedido
-        $idPedido = $this->lastInsertId();
-        $consulta2 = "INSERT INTO producto_pedido(cod_pedido, cod_producto, cantidad) VALUES (:pedido, :producto, :cantidad)";
-        $stmt2 = $this->prepare($consulta2);
-        foreach ($carrito as $cod_producto => $unidades) {
-            $stmt2->bindParam(":pedido",$idPedido);
-            $stmt2->bindParam(":producto",$cod_producto);
-            $stmt2->bindParam(":cantidad", $unidades);
-            $stmt2->execute();
+            //Obtener el id del pedido para insertar datos en la tabla producto_pedido
+            $idPedido = $this->lastInsertId();
+            $consulta2 = "INSERT INTO producto_pedido(cod_pedido, cod_producto, cantidad) VALUES (:pedido, :producto, :cantidad)";
+            $stmt2 = $this->prepare($consulta2);
+            foreach ($carrito as $cod_producto => $unidades) {
+                $stmt2->bindParam(":pedido", $idPedido);
+                $stmt2->bindParam(":producto", $cod_producto);
+                $stmt2->bindParam(":cantidad", $unidades);
+                $stmt2->execute();
+            }
+
+            //Si todo a bien, confirmar las inserciones
+            $this->commit();
+            return true;
+        } catch (PDOException $e) {
+            //Revertir las inserciones hechas. O se ejecutan ambas o ninguna
+            $this->rollBack();
+            return false;
         }
     }
 }

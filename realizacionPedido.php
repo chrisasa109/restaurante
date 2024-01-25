@@ -20,6 +20,13 @@ require_once('./conexionBBDD.php');
     //Acceder al código del restaurante
     $restaurante = $_SESSION["usuario"]->cod_restaurante;
     $resultado = (new Conexion())->procesarPedido($restaurante, $_SESSION["carrito"]);
+    if($restaurante==true){
+        $_SESSION["carrito"]=[];//vaciar el carrito en session
+        echo "<h2>Pedido relizado correctamente.</h2>";
+    }else{
+        echo "<h2>El pedido no se ha podido realizar.</h2>";
+    }
+
     ?>
 </body>
 
